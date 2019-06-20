@@ -1,0 +1,28 @@
+// design admin panel this is not be copied
+
+@import "./variable.scss";
+.ncontainer {
+  max-width: 900px;
+  width: 100%;
+  padding: 15px;
+  margin: auto;
+}
+.ui-element {
+  display: flex;
+}
+.ui-element div {
+  width: 50%;
+}
+.ui-element__preview {
+  min-width: 500px;
+}
+
+.ui-element__code {
+  background: lighten($primary-color, 51%);
+}
+.utitle {
+  margin-bottom: 15px;
+}
+.tab1 {
+  margin-left: 30px;
+}
