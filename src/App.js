@@ -11,7 +11,6 @@ function App() {
       <Sidebar />
       <AddLayer/>
     </div>
-
     );
 }
 
