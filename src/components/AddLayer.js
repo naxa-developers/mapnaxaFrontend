@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../Css/newlayer.css'
 import { IoIosAddCircle } from "react-icons/io";
+import { TiBackspace } from "react-icons/ti";
 import Button from '@material-ui/core/Button';
 
 
@@ -16,6 +17,14 @@ class AddLayer extends Component
         return (
             <div className="addLayerdiv" onClick={ this.hideAddLayerPopOver }>
                 <h3>Add Layer</h3>
+                <TiBackspace style={{position:"absolute",marginLeft:265,marginTop:-70}}  size='1.5em' onClick={()=>
+                {
+                    this.props.addLayerPopOverIsShown=false;
+                    console.log(this.props.addLayerPopOverIsShown);
+                
+                }
+
+                }/>
                 <p>Enter Layer Name</p>
                 <input placeholder="Filter By Field" style={{borderRadius:5}}></input>
                 <p>Add Category</p>
@@ -26,7 +35,7 @@ class AddLayer extends Component
                     <option value="Development " />
                 </datalist>
                 <label>
-                    <input list="category" name="Ncategory" placeholder="Select category" style={{borderRadius:5}} id='spinner' />
+                    <input list="category" name="Ncategory" placeholder="Select category" style={{borderRadius:5}} readonly id='spinner' />
                     <IoIosAddCircle size='1.5em' id='addicon' />
                 </label>
                 <p>Data Source</p>
