@@ -17,7 +17,7 @@ export default ( state=initialState, action ) =>
     case ADD_LAYER:
 
         return {
-            layers: [ newLayer, ...state.layer ]
+            layers: [ action.newLayer, ...state.layers ]
         }
 
     case REMOVE_LAYER:

@@ -5,7 +5,7 @@ export const addLayer = newLayer =>
     return { type: ADD_LAYER, newLayer }
 }
 
-export const REMOVE_LAYER = id => 
+export const removeLayer = id => 
 {
     return { type: REMOVE_LAYER, id }
 }

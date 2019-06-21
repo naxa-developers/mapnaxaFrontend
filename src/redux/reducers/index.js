@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import layersReducers from './layersReducers'
+import layersReducer from './layersReducer'
 
 const rootReducer = combineReducers(
     {
-        layers: layersReducers
+        layers: layersReducer
     }
 );
 
