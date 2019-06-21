@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaPlus, FaFilter, FaSearch } from 'react-icons/fa'
+import LayerItems from './LayerItems'
 
 const AddLayerAndSearch = props => 
 {
@@ -30,6 +31,8 @@ const AddLayerAndSearch = props =>
                     </div>
                 </div>
             </div>
+            <LayerItems></LayerItems>
+            
         </div>
     );
 }

@@ -3,28 +3,18 @@ import '../Css/newlayer.css'
 import { IoIosAddCircle } from "react-icons/io";
 import { TiBackspace } from "react-icons/ti";
 import Button from '@material-ui/core/Button';
+import 'animate.css'
+
 
 
 class AddLayer extends Component 
 {
     render() 
     { 
-        console.log( this.props )
-        if ( !this.props.addLayerPopOverIsShown )
-        {
-            return (<div />)
-        }
         return (
-            <div className="addLayerdiv" onClick={ this.hideAddLayerPopOver }>
+            <div id="addLayerdiv" className="animated zoomIn faster" >
                 <h3>Add Layer</h3>
-                <TiBackspace style={{position:"absolute",marginLeft:265,marginTop:-70}}  size='1.5em' onClick={()=>
-                {
-                    this.props.addLayerPopOverIsShown=false;
-                    console.log(this.props.addLayerPopOverIsShown);
-                
-                }
-
-                }/>
+                <TiBackspace id="close" style={{position:"absolute",marginLeft:265,marginTop:-70}}  size='1.5em' color="#ffffff" onClick={this.props.hideAddLayerPopOver}/>
                 <p>Enter Layer Name</p>
                 <input placeholder="Filter By Field" style={{borderRadius:5}}></input>
                 <p>Add Category</p>
@@ -35,7 +25,7 @@ class AddLayer extends Component
                     <option value="Development " />
                 </datalist>
                 <label>
-                    <input list="category" name="Ncategory" placeholder="Select category" style={{borderRadius:5}} readonly id='spinner' />
+                    <input list="category" name="Ncategory" placeholder="Select category" style={{borderRadius:5}} readonly id='spinner' select />
                     <IoIosAddCircle size='1.5em' id='addicon' />
                 </label>
                 <p>Data Source</p>
@@ -54,7 +44,7 @@ class AddLayer extends Component
                     </Button>
                 </label>
                 <input
-                    accept="image/*"
+                    accept="*"
                     id="outlined-button-file"
                     multiple
                     type="file"
@@ -73,16 +63,16 @@ class AddLayer extends Component
                 <div style={{ display: "flex", flexDirection: 'row' }}>
                     <div>
                         <p>Select Latitude</p>
-                        <input list="" style={{ width: 120,borderRadius:5 }} name="Nlat" placeholder="Select Field" id='spinner' list="field"/>
+                        <input list="" style={{ width: 120,borderRadius:5 }} name="Nlat" placeholder="Select Field" list="field"/>
                     </div>
                     <div style={{ marginLeft: 5 }}>
                         <p>Select Longitude</p>
-                        <input list="" name="Nlon" placeholder="Select Field" id='spinner' style={{ width: 120,borderRadius:5 }} list="field" />
+                        <input list="" name="Nlon" placeholder="Select Field"  style={{ width: 120,borderRadius:5 }} list="field" />
                     </div>
                 </div>
 
                 <div style={{ display:"flex", marginTop:10,justifyContent:'flex-start',alignContent:'center'}}>
-                    <Button variant="outlined" style={{marginRight:10,marginLeft:30,fontSize:10}} >
+                    <Button variant="outlined" style={{marginRight:10,marginLeft:30,fontSize:10}} onClick={this.props.hideAddLayerPopOver}>
                         Discard
                     </Button>
                     <Button variant="contained" color="secondary" style={{fontSize:10}}  >

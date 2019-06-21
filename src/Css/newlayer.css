@@ -1,13 +1,19 @@
+#close:hover
+{
+  cursor: pointer;
+
+}
+
 p{
     padding: 0;
     margin:10px;
     margin-left: 0;
 }
-.addLayerdiv{
+#addLayerdiv{
     position: fixed;
     top: 60px;
-    left:300px;
-    background: rgba(75, 48, 197,0.7) ;
+    left:252px;
+    background: rgba(37, 33, 59, 0.4) ;
     padding: 15px;
     border-radius: 10px;
     padding-right: 10px

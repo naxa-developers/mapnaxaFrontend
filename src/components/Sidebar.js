@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AddLayerAndSearch from './AddLayerAndSearch';
-import AddLayer from './AddLayer'              
+import AddLayer from './AddLayer'
 
 class Sidebar extends Component 
 {
@@ -19,20 +19,18 @@ class Sidebar extends Component
     }
     hideAddLayerPopOver = ( event ) =>
     {
-        if ( event.currentTarget === event.target )
-        {
-            this.setState({ addLayerPopOverIsShown: false });
-        }
+        this.setState({ addLayerPopOverIsShown: false });
     }
     render()
     {
         return (
             <div>
                 <AddLayerAndSearch showAddLayerPopOver={ this.showAddLayerPopOver } />
-                <AddLayer 
-                    addLayerPopOverIsShown={ this.state.addLayerPopOverIsShown } 
-                    hideAddLayerPopOver={ this.hideAddLayerPopOver }
-                />
+                {
+                    this.state.addLayerPopOverIsShown && 
+                    <AddLayer hideAddLayerPopOver={ this.hideAddLayerPopOver } />
+                }
+                
             </div>
         );
     }
