@@ -8,13 +8,8 @@ class AddLayer extends Component
 {
     render() 
     { 
-        console.log( this.props )
-        if ( !this.props.addLayerPopOverIsShown )
-        {
-            return (<div />)
-        }
         return (
-            <div className="addLayerdiv" onClick={ this.hideAddLayerPopOver }>
+            <div className="addLayerdiv">
                 <h3>Add Layer</h3>
                 <p>Enter Layer Name</p>
                 <input placeholder="Filter By Field" style={{borderRadius:5}}></input>

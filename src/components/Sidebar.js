@@ -29,10 +29,10 @@ class Sidebar extends Component
         return (
             <div>
                 <AddLayerAndSearch showAddLayerPopOver={ this.showAddLayerPopOver } />
-                <AddLayer 
-                    addLayerPopOverIsShown={ this.state.addLayerPopOverIsShown } 
-                    hideAddLayerPopOver={ this.hideAddLayerPopOver }
-                />
+                {
+                    this.state.addLayerPopOverIsShown && 
+                    <AddLayer hideAddLayerPopOver={ this.hideAddLayerPopOver } />
+                }
             </div>
         );
     }
