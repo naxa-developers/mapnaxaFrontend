@@ -3,14 +3,7 @@ import {
     FaShareAlt,
     FaCloudUploadAlt,
     FaCaretDown,
-    FaUserAlt,
-    FaPlus,
-    FaFilter,
-    FaSearch,
-    FaTimes,
-    FaSchool,
-    FaHospital,
-    FaRoad
+    FaUserAlt
   } from "react-icons/fa";
 
 class Header extends Component {
