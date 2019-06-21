@@ -4,7 +4,6 @@ import { IoIosAddCircle } from "react-icons/io";
 import Button from '@material-ui/core/Button';
 
 
-
 class AddLayer extends Component 
 {
     render() 
@@ -18,7 +17,7 @@ class AddLayer extends Component
             <div className="addLayerdiv" onClick={ this.hideAddLayerPopOver }>
                 <h3>Add Layer</h3>
                 <p>Enter Layer Name</p>
-                <input placeholder="Filter By Field"></input>
+                <input placeholder="Filter By Field" style={{borderRadius:5}}></input>
                 <p>Add Category</p>
                 <datalist id="category">
                     <option value="Education" />
@@ -27,12 +26,12 @@ class AddLayer extends Component
                     <option value="Development " />
                 </datalist>
                 <label>
-                    <input list="category" name="Ncategory" placeholder="Select category" id='spinner' />
+                    <input list="category" name="Ncategory" placeholder="Select category" style={{borderRadius:5}} id='spinner' />
                     <IoIosAddCircle size='1.5em' id='addicon' />
                 </label>
                 <p>Data Source</p>
                 <input type="radio" name="datasource" value="Vector" /> Vector<br />
-                <input type="radio" name="datasource" value="Raster" /> Raster<br />
+                <input type="radio" name="datasource" value="Raster"  /> Raster<br />
 
                 <p>Data type</p>
                 <input type="radio" name="datatype" value="Vector" /> Point<br />
@@ -56,17 +55,23 @@ class AddLayer extends Component
                 <p>"this.state.uploading"</p>
 
                 <p style={{ fontSize: 12 }}>Select Latitude and Latutude field from uploaded file</p>
+                <datalist id="field">
+                    <option value="Easting" />
+                    <option value="Northing" />
+                    <option value="Height" />
+                </datalist>
 
                 <div style={{ display: "flex", flexDirection: 'row' }}>
                     <div>
                         <p>Select Latitude</p>
-                        <input list="" style={{ width: 120 }} name="Nlat" placeholder="Select Field" id='spinner' />
+                        <input list="" style={{ width: 120,borderRadius:5 }} name="Nlat" placeholder="Select Field" id='spinner' list="field"/>
                     </div>
                     <div style={{ marginLeft: 5 }}>
                         <p>Select Longitude</p>
-                        <input list="" name="Nlon" placeholder="Select Field" id='spinner' style={{ width: 120 }} />
+                        <input list="" name="Nlon" placeholder="Select Field" id='spinner' style={{ width: 120,borderRadius:5 }} list="field" />
                     </div>
                 </div>
+
                 <div style={{ display:"flex", marginTop:10,justifyContent:'flex-start',alignContent:'center'}}>
                     <Button variant="outlined" style={{marginRight:10,marginLeft:30,fontSize:10}} >
                         Discard
