@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import AddLayerAndSearch from './AddLayerAndSearch';
+import AddLayer from './AddLayer'              
 
 class Sidebar extends Component 
 {
@@ -23,11 +24,15 @@ class Sidebar extends Component
             this.setState({ addLayerPopOverIsShown: false });
         }
     }
-    render() 
+    render()
     {
         return (
             <div>
                 <AddLayerAndSearch showAddLayerPopOver={ this.showAddLayerPopOver } />
+                <AddLayer 
+                    addLayerPopOverIsShown={ this.state.addLayerPopOverIsShown } 
+                    hideAddLayerPopOver={ this.hideAddLayerPopOver }
+                />
             </div>
         );
     }

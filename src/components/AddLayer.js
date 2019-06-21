@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import '../Css/newlayer.css'
 import { IoIosAddCircle } from "react-icons/io";
 import Button from '@material-ui/core/Button';
-import { display } from '@material-ui/system';
 
 
 
-class AddLayer extends Component {
-    render() {
+class AddLayer extends Component 
+{
+    render() 
+    { 
+        console.log( this.props )
+        if ( !this.props.addLayerPopOverIsShown )
+        {
+            return (<div />)
+        }
         return (
-            <div className="addLayerdiv">
+            <div className="addLayerdiv" onClick={ this.hideAddLayerPopOver }>
                 <h3>Add Layer</h3>
                 <p>Enter Layer Name</p>
                 <input placeholder="Filter By Field"></input>
@@ -69,14 +75,6 @@ class AddLayer extends Component {
                         Create Layer
                     </Button>
                 </div>
-          
-
-
-
-
-
-
-
             </div>
         );
     }
