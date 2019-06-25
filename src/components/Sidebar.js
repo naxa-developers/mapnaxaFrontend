@@ -14,7 +14,6 @@ class Sidebar extends Component
 
     showAddLayerPopOver = () =>
     {
-        console.log( this.state.addLayerPopOverIsShown );
         this.setState({ addLayerPopOverIsShown: true });
     }
     hideAddLayerPopOver = ( event ) =>

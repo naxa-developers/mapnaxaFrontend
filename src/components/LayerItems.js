@@ -15,24 +15,21 @@ class LayerItems extends Component {
         return (
             <div >
                 <h3 style={{padding:0,margin:0}}>BaseMaps</h3>
-                {this.state.Base.map((e) => {
+                {this.state.Base.map((layer,i) => {
                     return(
-                    <div className="base">
+                    <div className="base" key={i}>
                         <label>
-                            <input type="radio" value={e.LayerName} style={{marginLeft:10}} />
-                            {e.LayerName}
+                            <input type="radio" value={layer.LayerName} style={{marginLeft:10}} />
+                            {layer.LayerName}
                         </label>
                     </div>)
                 })}
                  <h3 style={{padding:0,margin:0}}>Layers</h3>
-                {this.state.Layers.map((e) => {
+                {this.state.Layers.map((layer,i) => {
                     return(
-                        <div>
-                            <input type='checkbox' value={e.LayerName} style={{marginLeft:10}} />{e.LayerName}
+                        <div  key={i}>
+                            <input type='checkbox' value={layer.LayerName} style={{marginLeft:10}} />{layer.LayerName}
                         </div>
-                        
-                        
-                
                     )
                 })}
             </div>
