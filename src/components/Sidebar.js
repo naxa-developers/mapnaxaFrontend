@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import AddLayerAndSearch from './AddLayerAndSearch';
 import AddLayer from './AddLayer'
 
-class Sidebar extends Component 
+class Sidebar extends Component
 {
     constructor( props )
     {

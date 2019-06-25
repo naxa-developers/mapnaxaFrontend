@@ -24,6 +24,7 @@ class AddLayer extends Component
             isUploadingFile: true
         };
     }
+
     // function to handle changes for every input in this add layer form
     handleChange = event => 
     {
@@ -37,34 +38,86 @@ class AddLayer extends Component
        console.log( this.state );
     }
 
+    getPostDataForNewLayer = () =>
+    {
+        // may be assert ( dataSource === "vector" )
+        const { layerName,category,dataSource } = this.state;
+        let postData = {
+            name: layerName,
+            category,
+            dataSource,
+            fileData: this.inputFileContentAsString
+        }
+        // adding style or classification based on the dataSource raster or vector
+        dataSource === "vector" ? postData.style ={} : postData.classification = {}
+        return postData;
+    }
+
+    // function to gathering the information of the form and posting it to the server
     handleFileAfterLoadingEnds = () =>
     {
         this.inputFileContentAsString = this.fileReader.result;
 
         // post to server will be done here
-        const { layerName,category,dataSource } = this.state;
-        const vectorLayer = {
-            name: layerName,
-            category,
-            dataSource,
-            style: {},
-            fileData: this.inputFileContentAsString
-        }
-        console.log( vectorLayer );
+        const layer = this.getPostDataForNewLayer();
+        console.log( layer );
+
+        // posting the data 
+        const url = "http://localhost:8081/api";
+        const options = {
+            method: 'POST',
+            headers: {
+                "Accept": 'application/json',
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify( layer )
+        };
+        fetch( url, options )
+            .then( response => response.json() )
+            .then( data => console.log(data) )
+            .catch( error => alert( error.message ) )
     }
 
-    postVectorLayerToServer = event =>
+    postLayerToServer = event =>
     {
-        const { inputFile } = this.state;
-        if ( inputFile == null || !inputFile.name.endsWith('.geojson') )
+        // checking if no file is chosen
+        if ( this.state.inputFile == null )
         {
-            alert("You haven't chosen a valid file!!!")
+            alert( "Choose a file to upload!" );
             return;
         }
+        // assigning a new FileReader instance to this.fileReader
         this.fileReader = new FileReader();
         this.fileReader.onloadend = this.handleFileAfterLoadingEnds; // handleFileOnLoadEnd will be called as soon as the fileReader completes reading the file. Called on the next line 
-        this.fileReader.readAsText( inputFile );
+
+        //calling appropriate file reading functions according to dataSource Raster or Vector
+        switch ( this.state.dataSource )
+        {
+        case "vector":
+            if ( !this.state.inputFile.name.endsWith('.geojson') )
+            {
+                alert( "File has to be a geojson file" )
+                return;
+            }
+            this.fileReader.readAsText( this.state.inputFile );
+            break;
+
+        case "raster":
+            if ( !this.state.inputFile.name.endsWith('.tiff') )
+            {
+                alert( "File has to be a tiff file" )
+                return;
+            }
+            this.fileReader.readAsDataURL( this.state.inputFile );
+            break;
+        default:
+            alert("Choose a data source");
+            return;
+        }
+        
+        this.props.hideAddLayerPopOver();
     }
+
     render()
     { 
         return (
@@ -131,34 +184,37 @@ class AddLayer extends Component
                 </label>
 
                 {/* The Data Types radio button inputs */}
-                <label>
-                    <p>Data type</p>
-                    <input 
-                        type="radio" 
-                        name="dataType" 
-                        value="point"  
-                        onChange={ this.handleChange }
-                    /> Point
-                    <br />
+                {
+                    ( this.state.dataSource === "vector" ) &&
+                    <label>
+                        <p>Data type</p>
+                        <input 
+                            type="radio" 
+                            name="dataType" 
+                            value="point"  
+                            onChange={ this.handleChange }
+                        /> Point
+                        <br />
 
-                    <input 
-                        type="radio" 
-                        name="dataType" 
-                        value="line"  
-                        onChange={ this.handleChange }
-                    /> Line
-                    <br />
+                        <input 
+                            type="radio" 
+                            name="dataType" 
+                            value="line"  
+                            onChange={ this.handleChange }
+                        /> Line
+                        <br />
 
-                    <input 
-                        type="radio" 
-                        name="dataType" 
-                        value="polygon"  
-                        onChange={ this.handleChange }
-                    /> Polygon
-                    <br /><br />
+                        <input 
+                            type="radio" 
+                            name="dataType" 
+                            value="polygon"  
+                            onChange={ this.handleChange }
+                        /> Polygon
+                        <br /><br />
 
-                </label>
-
+                    </label>
+                }
+                
                 {/* The button for the input file */}
                 <label htmlFor="outlined-button-file">
                     <Button variant="contained" component="span" className="UploadButton">
@@ -172,11 +228,11 @@ class AddLayer extends Component
                 </label>
                 {/* The actual input for fileinput. This is HIDDEN */}
                 <input
-                    accept=".*"
+                    accept={ this.state.dataSource === "vector" ? ".geojson" : ".tiff"}
                     id="outlined-button-file"
-                    multiple
                     type="file"
                     name="inputFile"
+                    multiple
                     onChange={ this.handleChange }
                     hidden
                 />
@@ -228,7 +284,7 @@ class AddLayer extends Component
                         variant="contained" 
                         color="secondary" 
                         style={{ fontSize:10 }} 
-                        onClick={ this.postVectorLayerToServer }
+                        onClick={ this.postLayerToServer }
                         >
                         Create Layer
                     </Button>
