@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,createRef } from 'react';
 import 'animate.css'
 
 import './addLayerPopOver.css'
@@ -17,7 +17,9 @@ class AddLayerPopOver extends Component
     {
         super();
         this.fileReader = null;
+        this.inputFile = null;
         this.inputFileContentAsString = "";
+        this.fileInputRef = createRef();
         this.state = {
             layerName: "",
             category: "",
@@ -25,8 +27,9 @@ class AddLayerPopOver extends Component
             dataType: "", // point or line or polygon
             latitudeField: "",
             longitudeField: "",
-            inputFile: null,
-            isUploadingFile: true
+            inputFileName: "",
+            validFileIsChosen: false,
+            isUploadingFile: false
         };
     }
 
@@ -34,13 +37,24 @@ class AddLayerPopOver extends Component
     handleChange = event => 
     {
         const { name,value,type } = event.target;
+        // debugger;
         // to handle input on file and other differently
-        ( type === "file" ) ? 
-            this.setState({ [name]: event.target.files[0] }) // event.target.files[0] return the file object for file-type input
-            :
+        if ( type === "file" )  
+        {
+            if ( event.target.files[0] == null )
+            {
+                console.log("No file selected");
+                return; // if no file is selected, posting and setting state shouldn't be done Hence, return;
+            }
+            this.inputFile = event.target.files[0] // event.target.files[0] return the file object for file-type input
+            this.setState({ inputFileName: this.inputFile.name });
+            this.uploadLayerToServer( event );
+        }    
+        else
+        {
             this.setState({ [name]: value })
-
-    //    console.log( this.state );
+        }
+        //    console.log( this.state );
     }
 
     // function to gathering the information of the form
@@ -51,7 +65,7 @@ class AddLayerPopOver extends Component
             name: layerName,
             category,
             dataSource,
-            fileData: this.inputFileContentAsString
+            fileData: this.inputFileContentAsString,
         }
         // adding style or classification based on the dataSource raster or vector
         dataSource === "vector" ? postData.style ={} : postData.classification = ""
@@ -65,7 +79,7 @@ class AddLayerPopOver extends Component
 
         // getting the post data gathered from the form
         const layer = this.getPostDataForNewLayer();
-        // console.log( layer );
+        console.log( "Post Data Before Sending:",layer );
 
         // setting up the post url and options
         const url = "http://localhost:8081/api";
@@ -80,53 +94,73 @@ class AddLayerPopOver extends Component
         // sending post request
         fetch( url, options )
             .then( response => response.json() )
-            .then( data => console.log(data) )
-            .catch( error => alert( error.message ) )
+            .then( data => 
+                {
+                    console.log(data)
+                    this.setState({isUploadingFile: false, validFileIsChosen: true});
+                    this.fileInputRef.current.value = ""
+                })
+            .catch( error => 
+                {
+                    this.setState({isUploadingFile: false, inputFileName: "", validFileIsChosen: false});
+                    this.fileInputRef.current.value = ""
+                    alert( error.message );
+                })
     }
 
-    postLayerToServer = event =>
+    // function to upload the file to database with a post request made to the server
+    uploadLayerToServer = event =>
     {
+        // debugger;
         // checking if no file is chosen
-        if ( this.state.inputFile == null )
+        if ( this.inputFile == null )
         {
             alert( "Choose a file to upload!" );
             return;
         }
         // assigning a new FileReader instance to this.fileReader
         this.fileReader = new FileReader();
-        this.fileReader.onloadend = this.handleFileAfterLoadingEnds; // handleFileOnLoadEnd will be called as soon as the fileReader completes reading the file. Called on the next line 
-
+        
         //calling appropriate file reading functions according to dataSource Raster or Vector
         switch ( this.state.dataSource )
         {
         case "vector":
-            if ( !this.state.inputFile.name.endsWith('.geojson') )
+            if ( !this.inputFile.name.endsWith('.geojson') )
             {
                 alert( "File has to be a geojson file" )
                 return;
             }
-            this.fileReader.readAsText( this.state.inputFile );
+            this.fileReader.readAsText( this.inputFile );
             break;
 
         case "raster":
-            if ( !this.state.inputFile.name.endsWith('.tiff') )
+            if ( !this.inputFile.name.endsWith('.tiff') )
             {
                 alert( "File has to be a tiff file" )
                 return;
             }
-            this.fileReader.readAsDataURL( this.state.inputFile );
+            this.fileReader.readAsDataURL( this.inputFile );
             break;
+
         default:
             alert("Choose a data source");
+            event.target.value = "" // if not set to "" and the user selects a data source, the uploadFile input won't change and the postLayerToServer won't be called 
             return;
         }
-        
+        // the code here doesn't run if no data source is selected in which case the function return null from default switch case
+        this.setState({ isUploadingFile: true, validFileIsChosen: true });
+
+        this.fileReader.onloadend = this.handleFileAfterLoadingEnds; // handleFileOnLoadEnd will be called as soon as the fileReader completes reading the file. Called on the next line 
+    }
+
+    createLayer = () =>
+    {
+        console.log("Add layer yet to be handled! Sorry Bro!");
         this.props.hideAddLayerPopOver();
     }
 
     render()
     { 
-        console.log( this.state );
         return (
             <div id="addLayerdiv" className="animated zoomIn faster" >
                 <HeadingAndBackButton
@@ -152,8 +186,10 @@ class AddLayerPopOver extends Component
                     />
                 }
                 <UploadFileInput 
+                    fileInputRef={this.fileInputRef}
                     isUploadingFile={ this.state.isUploadingFile }
-                    inputFile={ this.state.inputFile }
+                    inputFileName={ this.state.inputFileName }
+                    validFileIsChosen={ this.state.validFileIsChosen }
                     dataSource={ this.state.dataSource }
                     handleChange={ this.handleChange }
                 />
@@ -163,7 +199,7 @@ class AddLayerPopOver extends Component
                 {/* Discard and Create Layer Buttons section */}
                 <CreateOrDiscardBtns 
                     hideAddLayerPopOver={ this.props.hideAddLayerPopOver }
-                    postLayerToServer={ this.postLayerToServer }
+                    createLayer={ this.createLayer }
                 />
             </div>
         );

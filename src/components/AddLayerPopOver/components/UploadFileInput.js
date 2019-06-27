@@ -12,10 +12,10 @@ const UploadFileInput = props => {
                 </Button>
                 { props.isUploadingFile && <div className="loader"/> }
                 {
-                    props.inputFile 
+                    props.validFileIsChosen
                     && 
                     <p style={{ fontStyle: 'italic', fontSize: 13, color: 'white' }}>
-                        Chosen File: {props.inputFile.name}
+                        { props.isUploadingFile ? "Uploading": "Uploaded"}: {props.inputFileName}
                     </p>
                 }
             </label>
@@ -25,8 +25,9 @@ const UploadFileInput = props => {
                 id="outlined-button-file"
                 type="file"
                 name="inputFile"
-                multiple
                 onChange={ props.handleChange }
+                ref={ props.fileInputRef }
+                multiple  
                 hidden
             />
         </div>

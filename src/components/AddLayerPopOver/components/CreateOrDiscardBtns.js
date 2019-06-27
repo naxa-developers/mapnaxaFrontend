@@ -17,7 +17,7 @@ const CreateOrDiscardBtns = props => {
                 variant="contained" 
                 color="secondary" 
                 style={{ fontSize:10 }} 
-                onClick={ props.postLayerToServer }
+                onClick={ props.createLayer }
                 >
                 Create Layer
             </Button>
