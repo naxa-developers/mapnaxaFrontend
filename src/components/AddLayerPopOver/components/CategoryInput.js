@@ -1,6 +1,7 @@
 import React from 'react'
 import { IoIosAddCircle } from "react-icons/io";
 
+// just for try
 const CategoryInput = props => {
     return (
         <div>
