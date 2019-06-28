@@ -2,7 +2,6 @@ import React from 'react';
 import './scss/style.scss';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
-import Signup from './components/auth/Login';
 
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,7 +16,6 @@ function App() {
     <div>
         <Header/>
         <Sidebar />
-        <Signup />    
     </div>
     );
 }
