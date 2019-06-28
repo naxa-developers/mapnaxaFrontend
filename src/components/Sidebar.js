@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import AddLayerAndSearch from './AddLayerAndSearch';
 import AddLayer from './AddLayer'
-import{Route,Switch,Link} from 'react-router-dom'
-import Point from '../components/Stylingvectorpoint'
 import  '../Css/sidebar.css';
 
 
@@ -35,7 +33,7 @@ class Sidebar extends Component
                     <AddLayer hideAddLayerPopOver={ this.hideAddLayerPopOver } />
                 }
                 <div id="stylingRoute">
-                    <Point/>
+                    {/* <Polygon/> */}
 
 
                 </div>

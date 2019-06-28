@@ -5,9 +5,11 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { FaCircle } from 'react-icons/fa';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Button from '@material-ui/core/Button';
-import { PhotoshopPicker, ChromePicker } from 'react-color';
+import { PhotoshopPicker } from 'react-color';
 import InputRange from 'react-input-range';
 import "react-input-range/lib/css/index.css"
+
+
 
 
 
@@ -18,7 +20,6 @@ class Stylingvectorpoint extends Component {
 
         this.state = {
             symbology: 1,
-            colo: 'ff7800',
             displayfillcolor: false,
             displaycolor: false,
             circular: {
@@ -53,7 +54,6 @@ class Stylingvectorpoint extends Component {
 
     render() {
 
-
         return (
             <div>
                 <div style={{}} className="vectorstyleComp">
@@ -73,47 +73,52 @@ class Stylingvectorpoint extends Component {
 
                     {this.state.symbology === 1 && <div>
                         <div style={{ display: 'flex' }}>
-                            <Button color="primary" >FillColor</Button><div style={{ width: 30, height: 30, backgroundColor: this.state.circular.fillColor, display: 'flex', borderRadius: 5 }} onClick={() => this.setState({ displayfillcolor: !this.state.displayfillcolor })}></div>
-                            <Button color="primary" >Color</Button><div style={{ width: 30, height: 30, backgroundColor: this.state.circular.color, display: 'flex', borderRadius: 5 }} onClick={() => this.setState({ displaycolor: !this.state.displayfillcolor })}></div>
+                            <Button color="primary" >Color</Button><div style={{ width: 30, height: 30, backgroundColor: this.state.circular.color, display: 'flex', borderRadius: 5, marginLeft: 'auto' }} onClick={() => this.setState({ displaycolor: !this.state.displayfillcolor })}></div>
                         </div>
+                        <div style={{ display: 'flex' }}>
+                            <Button color="primary" >FillColor</Button><div style={{ width: 30, height: 30, backgroundColor: this.state.circular.fillColor, display: 'flex', borderRadius: 5, marginLeft: 'auto' }} onClick={() => this.setState({ displayfillcolor: !this.state.displayfillcolor })}></div>
+
+                        </div>
+
+
                         <p >Circle Radius:{this.state.circular.radius}</p><p>{}</p>
                         <InputRange
                             maxValue={20}
                             minValue={0}
                             value={this.state.circular.radius}
-                            formatLabel={()=>null}
-                            onChange={value => this.setState(prevState=>{
-                                return {circular: { ...prevState.circular, radius: value }}
+                            formatLabel={() => null}
+                            onChange={value => this.setState(prevState => {
+                                return { circular: { ...prevState.circular, radius: value } }
                             })} />
-                         <p >Weight:{this.state.circular.weight}</p>
+                        <p >Weight:{this.state.circular.weight}</p>
                         <InputRange
-                        
+
                             maxValue={20}
                             minValue={0}
-                            formatLabel={()=>null}
+                            formatLabel={() => null}
                             value={this.state.circular.weight}
-                            onChange={value => this.setState(prevState=>{
-                                return {circular: { ...prevState.circular, weight: value }}
+                            onChange={value => this.setState(prevState => {
+                                return { circular: { ...prevState.circular, weight: value } }
                             })} />
-                         <p>Opacity:{this.state.circular.opacity}</p>
+                        <p>Opacity:{this.state.circular.opacity.toFixed(1)}</p>
                         <InputRange
                             step={0.1}
                             maxValue={1}
                             minValue={0}
                             value={this.state.circular.opacity}
-                            formatLabel={()=>null}
-                            onChange={value => this.setState(prevState=>{
-                                return {circular: { ...prevState.circular, opacity: value }}
+                            formatLabel={() => null}
+                            onChange={value => this.setState(prevState => {
+                                return { circular: { ...prevState.circular, opacity: value } }
                             })} />
-                         <p>Fill Opacity:{this.state.circular.fillOpacity}</p>
+                        <p>Fill Opacity:{this.state.circular.fillOpacity.toFixed(1)}</p>
                         <InputRange
                             step={0.1}
                             maxValue={1}
                             minValue={0}
-                            formatLabel={()=>null}
+                            formatLabel={() => null}
                             value={this.state.circular.fillOpacity}
-                            onChange={value => this.setState(prevState=>{
-                                return {circular: { ...prevState.circular, fillOpacity: value }}
+                            onChange={value => this.setState(prevState => {
+                                return { circular: { ...prevState.circular, fillOpacity: value } }
                             })} />
 
 
@@ -121,23 +126,31 @@ class Stylingvectorpoint extends Component {
 
 
                     }
+                    {/* if icons to be chosen */}
                     {this.state.symbology === 2 && <div></div>
 
                     }
 
 
-                    <Button variant="outlined" color="secondary" >
-                        Save
-                 </Button>
+                    <div style={{ display: "flex", justifyContent: 'space-evenly', marginTop: 5 }}>
+                        <Button variant="outlined" color="secondary" >
+                            Save
+                    </Button>
+                        <Button variant="outlined" color="secondary" >
+                            Apply
+                    </Button>
+                    </div>
 
                 </div>
-                <div style={{ marginLeft: "100%",marginTop:"-150%", position: "absolute", width: 20 }}>
+                <div style={{ marginLeft: "100%", marginTop: "-150%", position: "absolute", width: 20 }}>
                     {this.state.displayfillcolor && <PhotoshopPicker color={this.state.circular.fillColor} onAccept={() => this.setState({ displayfillcolor: false })} onCancel={() => this.setState({ displayfillcolor: false })} onChange={this.handleChangeComplete} />}
                 </div>
 
-                <div style={{marginLeft: "100%",marginTop:"-150%", position: "absolute", width: 20 }}>
+                <div style={{ marginLeft: "100%", marginTop: "-150%", position: "absolute", width: 20 }}>
                     {this.state.displaycolor && <PhotoshopPicker color={this.state.circular.color} onAccept={() => this.setState({ displaycolor: false })} onCancel={() => this.setState({ displaycolor: false })} onChange={this.handleChangeComplete} />}
                 </div>
+
+
             </div>
 
         );
