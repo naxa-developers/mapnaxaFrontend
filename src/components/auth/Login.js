@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
+import { toast } from 'react-toastify';
 import Yup from './ModifiedYup';
 import Input from './Input';
 
 class Login extends Component
 {
     static validationSchema = Yup.object().shape({
-        username: Yup.string().email().required(),
-        password: Yup.string().required()
+        username: Yup.string().email().required("Username is required"),
+        password: Yup.string().required("Password is required")
     });
 
     handleSubmit = values =>
@@ -21,8 +22,8 @@ class Login extends Component
         }
         fetch("http://localhost:8081/api", options)
             .then( response => response.json() )
-            .then( jsonData => alert( JSON.stringify( jsonData,null,3 ) ) )
-            .catch( error => alert( error.message ) )
+            .then( jsonData => jsonData && toast.success( "You're logged in.    ") )
+            .catch( error => toast.error( error.message ) )
     }
 
     createForm = ({ values, errors, handleBlur, handleChange, handleSubmit }) => 

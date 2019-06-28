@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
-import Yup from './ModifiedYup';
+import {  toast } from 'react-toastify';
 
+import Yup from './ModifiedYup';
 import Input from './Input';
 
 
@@ -29,8 +30,12 @@ class Signup extends Component {
         }
         fetch( url,options )
             .then( response => response.json() )
-            .then( jsonData => alert( JSON.stringify( jsonData,null,3 ) ) )
-            .catch( error => alert(error.message) )
+            .then( jsonData => 
+                {
+                    toast.success("You are signed up!");
+                    toast.info( JSON.stringify( jsonData,null,3 ) )
+                } )
+            .catch( error => toast.error(error.message + " Failed To Sign UP") )
     }
 
     // function to get render the form to be passed as a prop in formik
